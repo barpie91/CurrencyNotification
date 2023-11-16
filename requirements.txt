@@ -1,0 +1,3 @@
+#biblioteki do uruchomienia programu
+requests==2.31.0
+pandas
