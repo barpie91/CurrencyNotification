@@ -21,4 +21,16 @@ in CSV file.
 
 Currency Tracker class
 
-The class represents CSV file as an init
+The class represents a CSV file and list of thresholds as attributes and methods that load the data,
+ compare rates with the given thresholds, set and check alerts, and send notification to the destination user.
+
+ KNN Model class
+
+ The class represents the k-nearest neighbors algorithm that takes a threshold
+ as an initiator and methods that fit, train and return an anomaly score based on the given dataset.
+
+ Treshold Model class
+
+ The class represents a anomaly detection class that takes a thresholds as an init attributes, go through the list
+ of currency rates and with the given tresholds return an anomaly score based on the given dataset.
+
