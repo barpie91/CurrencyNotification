@@ -33,6 +33,8 @@ The class represents a CSV file and list of thresholds as attributes and methods
     self.currency_value_column = 'Kurs'
     self.data_column = 'Data'
     self.currency_code = 'Waluta'
+    self.model_params = {'treshold_low': 3,
+                         'treshold_high': 5}
 
   def load_currency_data(self):
     """It reads data from the file created and filled in
@@ -44,28 +46,29 @@ The class represents a CSV file and list of thresholds as attributes and methods
     df = pd.read_excel(self.CSV_Path)
     return df
 
-  def comparison(self, currency_code, treshold_low, treshold_high):
+  def comparison(self, currency_code, model_params):
       """It checks if there are any items above/below given threshold.
 	      Args:
     	  currency_code (string): selected currency code
     	  treshold_low (float): selected threshold
     	  treshold_high (float): selected threshold
 
-	      Returns: Robi detekcje anomalii w oparciu o górny i dolny threshold. Zwraca liste dat kiedy waluta przekroczyla threshold dolny i górny
-    	  if exists, it returns the list of items below and/or above threshold.
+	      Returns:  if exists, it returns the list of items below and/or above threshold.
 	    """
       self.df = self.df[self.df[self.currency_code] == currency_code]
-      is_greater_than_treshold = self.df[self.currency_value_column].gt(treshold_high).any()
+      #is_greater_than_treshold = df[self.currency_value_column].gt(treshold_high).any()
+      #thr_model = TresholdModel(model_params['treshold_high'], model_params['treshold_low'])
+      #anomaly_score_list = thr_model
       if is_greater_than_treshold:
-        above_treshold = self.df[self.df[self.currency_value_column] > treshold_high]
+        above_treshold = df[df[self.currency_value_column] > treshold_high]
         above_treshold_list = above_treshold[self.data_column].tolist()
       else:
         above_treshold_list = []
 
-      is_lower_than_treshold = self.df[self.currency_value_column].lt(treshold_low).any()
+      is_lower_than_treshold = df[self.currency_value_column].lt(treshold_low).any()
 
       if is_lower_than_treshold:
-        below_treshold = self.df[self.df[self.currency_value_column] < treshold_low]
+        below_treshold = df[df[self.currency_value_column] < treshold_low]
         below_treshold_list = below_treshold[self.data_column].tolist()
       else:
         below_treshold_list = []

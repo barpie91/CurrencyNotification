@@ -25,7 +25,7 @@ knn.fit(x_train)
 
 from sklearn.neighbors import NearestNeighbors
 
-class Model:
+class KNNModel:
 
     """
     The class represents the k-nearest neighbors algorithm that takes a threshold
@@ -37,18 +37,17 @@ class Model:
       self.threshold = threshold
       self.lista = []
 
-    def fit(self, training_data_set):
-      x_train = create_windows(training_data_set['Kurs'].values)
+    def fit(self, training_data_set_values):
+      x_train = create_windows(training_data_set_values)
       self.knn.fit(x_train)
 
-    def predict(self, test_data_set):
-      x_test = create_windows(test_data_set['Kurs'].values)
+    def get_distances(self, test_data_set_values):
+      x_test = create_windows(test_data_set_values)
       distance, indices = self.knn.kneighbors(x_test)
       return distance
 
-    def anomaly_score(self, test_data_set):
-    #został przekroczony threshold to 1
-      for item in self.predict(test_data_set):
+    def predict(self, test_data_set_values):#anomalie w danych
+      for item in self.get_distances(test_data_set_values):
         if item[-1] > self.threshold:
           self.lista.append(1)
         else:
