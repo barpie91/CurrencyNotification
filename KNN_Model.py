@@ -9,6 +9,9 @@ cut_of_date = pd.Timestamp('2023-01-01')
 training_data_set = data[data['Data'] < cut_of_date]
 test_data_set = data[data['Data'] > cut_of_date]
 
+training_data_set_values = training_data_set['Kurs'].values
+test_data_set_values = test_data_set['Kurs'].values
+
 def create_windows(data, windows_size=3):
     windows = [data[i:i+windows_size] for i in range(len(data) - windows_size + 1)]
     return windows
@@ -49,6 +52,28 @@ class KNNModel:
     def predict(self, test_data_set_values):#anomalie w danych
       for item in self.get_distances(test_data_set_values):
         if item[-1] > self.threshold:
+          self.lista.append(1)
+        else:
+          self.lista.append(0)
+      return self.lista
+    
+################################################################################################
+
+class TresholdModel:
+
+    def __init__(self, treshold_low, treshold_high):
+      self.treshold_low = treshold_low
+      self.treshold_high = treshold_high
+      self.lista = []
+
+    def fit(self):
+        pass
+
+    def predict(self, test_data_set_values):
+      for item in test_data_set_values:
+        if item > self.treshold_high:
+          self.lista.append(1)
+        elif item < self.treshold_low:
           self.lista.append(1)
         else:
           self.lista.append(0)

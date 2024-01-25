@@ -1,8 +1,8 @@
 class TresholdModel:
 
-    def __init__(self, treshold_low, threshold_high):
-      self.threshold_low = threshold_low
-      self.threshold_high = threshold_high
+    def __init__(self, treshold_low, treshold_high):
+      self.treshold_low = treshold_low
+      self.treshold_high = treshold_high
       self.lista = []
 
     def fit(self):
@@ -10,7 +10,7 @@ class TresholdModel:
 
     def predict(self, test_data_set_values):
       for item in test_data_set_values:
-        if item > self.threshold_high:
+        if item > self.treshold_high:
           self.lista.append(1)
         elif item < self.treshold_low:
           self.lista.append(1)
