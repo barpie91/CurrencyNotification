@@ -1,3 +1,57 @@
+#Scraping data from the API
+
+from typing import List, Dict, Any
+import requests
+import csv
+
+class CurrencyCrawler:
+  """
+  The class represents URL and currency code as attributes and methods that query the API
+  and transform it further to the destination format in the CSV file.
+
+  """
+  def __init__(self, URL, currency_code):
+    self.URL = URL
+    self.currency_code = currency_code
+
+  def fetch_currency_data(self):
+    """The function gets the data from the API
+	  Returns:
+    It responses with the data in the json format
+	  """
+    API_URL = f"{self.URL}/exchangerates/rates/a/{self.currency_code}/"
+    response = requests.get(API_URL)
+    return response.json()
+
+  def extract_data_from_response(self, data: Dict[str, Any]) -> List[Any]:
+    """It transforms the json format file into a list
+	    Args:
+      data: json file
+	  Returns:
+    It returns the list as a row of data with the currency rate
+	  """
+    lists = [data['rates'][0]["effectiveDate"], data['currency'], data['code'], data['rates'][0]["mid"]]
+    return lists
+
+  def save_to_csv(self, data, file_name = 'currency_exchange.csv'):
+    """it saves API imported data into a csv file
+	  Args:
+    	data: json file
+    	file_name: destination file name
+	  """
+  with open(file_name, "a", newline='') as csv_file:
+    writer = csv.writer(csv_file)
+    if csv_file.tell() == 0:
+      headers = ["Date", "Currency", "Code", "Rate"]
+      writer.writerow(headers)
+    writer.writerow(self.extract_data_from_response(data))
+    
+    
+##############################################################################
+
+#Step 2. Loading the data.
+#Loading the downloaded currency rates data from the CSV file into DataFrame.
+
 import pandas as pd
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -66,7 +120,7 @@ The class represents a CSV file and list of thresholds as attributes and methods
         model = KNNModel(self.model_params['k'], self.model_params['treshold_knn'])
       elif model_type == 'Treshold':
         model = TresholdModel(self.model_params['treshold_high'], self.model_params['treshold_low'])
-      
+
       anomaly_score_list = model.predict(df_currency_code[self.currency_value_column])
 
       lista_date = []
@@ -106,8 +160,8 @@ The class represents a CSV file and list of thresholds as attributes and methods
           Dzień: {datetime.now().date()}
           Kurs: {currency_code}
           Dla podanej waluty i podanych tresholdow lista z ostatniego miesiaca.
-          Poniżej threshold: {below_threshold_string}
-          Powyżej thresholdu: {above_threshold_string}
+          Poniżej threshold: {below_treshold_string}
+          Powyżej thresholdu: {above_treshold_string}
           """
 
     subject = f"Alert anomalii w kursie {currency_code}"

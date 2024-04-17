@@ -8,8 +8,8 @@ that helps to identify anomalies in currency rates based on API data.
 The document focuses mainly on code with best OPP and Data Science
 practices. However, it can be used further in comprehensive implementations. 
 
-Key assumptions:
-1. Implementation of Currency exchange class on Google Cloud platform 
+Key assumptions "Work in progress":
+Implementation of Currency exchange class on Google Cloud platform 
 to collect daily currency rates and save them in the CSV file located
 in the destination directory. 
 
@@ -33,4 +33,8 @@ The class represents a CSV file and list of thresholds as attributes and methods
 
  The class represents a anomaly detection class that takes a thresholds as an init attributes, go through the list
  of currency rates and with the given tresholds return an anomaly score based on the given dataset.
+
+ Neural Network model
+
+"" Work in progress ""
 
