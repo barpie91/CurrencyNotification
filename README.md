@@ -31,10 +31,11 @@ The class represents a CSV file and list of thresholds as attributes and methods
 
  Treshold Model class
 
- The class represents a anomaly detection class that takes a thresholds as an init attributes, go through the list
+ The class represents an anomaly detection class that takes a thresholds as an init attributes, go through the list
  of currency rates and with the given tresholds return an anomaly score based on the given dataset.
 
- Neural Network model
+ Neural Network class
 
-"" Work in progress ""
+The class represents neural network built upon Keras functional API. It learns currency rates activities based on
+past sequences.
 
